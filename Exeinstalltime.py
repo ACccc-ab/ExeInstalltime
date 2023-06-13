@@ -36,7 +36,7 @@ def get_app_list(folder_path):
 
 def install_exe():
     exe_path = os.path.join(app_list_folder, selected_app.get())
-    silent_install_arg = "/S"  # 请将此参数替换为您的安装程序支持的静默安装参数
+    silent_install_arg = "/S"  # 静默安装参数，减少因为人为点击导致的时间误差
 
     if not os.path.exists(exe_path):
         messagebox.showerror("错误", "找不到指定的exe文件。请检查路径是否正确。")
@@ -49,6 +49,7 @@ def install_exe():
         messagebox.showerror("错误", f"安装过程中出现错误: {e}")
         return
 
+    # 原理：安装结束的时间-安装开始的时间=安装所耗费的时间
     end_time = time.time()
     elapsed_time = end_time - start_time
     messagebox.showinfo("安装完成", f"安装已完成，耗时：{elapsed_time:.2f}秒")
@@ -63,14 +64,15 @@ def main():
         messagebox.showerror("错误", "找不到可用的安装包。请确保applist文件夹存在并包含exe文件。")
         return
 
+
     window = tk.Tk()
-    window.title("安装程序")
+    window.title("安装耗时测试")
 
 
     frame = tk.Frame(window)
     frame.pack(padx=10, pady=10)
 
-    label = tk.Label(frame, text="在桌面创建一个名为applist的文件夹，文件从该文件夹中提取", relief=tk.SUNKEN, anchor=tk.W)
+    label = tk.Label(frame, text="在桌面创建一个名为applist的文件夹，测试程序从该文件夹中获取", relief=tk.SUNKEN, anchor=tk.W)
     label.pack(side=tk.BOTTOM, fill=tk.X)
 
     selected_app = tk.StringVar(window)
