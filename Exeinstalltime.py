@@ -41,8 +41,12 @@ def main():
     window = tk.Tk()
     window.title("安装程序")
 
+
     frame = tk.Frame(window)
     frame.pack(padx=10, pady=10)
+
+    label = tk.Label(frame, text="在桌面创建一个名为applist的文件夹，文件从该文件夹中提取", relief=tk.SUNKEN, anchor=tk.W)
+    label.pack(side=tk.BOTTOM, fill=tk.X)
 
     selected_app = tk.StringVar(window)
     selected_app.set(app_list[0])
