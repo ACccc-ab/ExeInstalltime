@@ -6,6 +6,7 @@ from tkinter import messagebox
 import ctypes
 import sys
 
+
 def run_as_admin():
     if sys.platform.startswith('win'):
         try:
@@ -20,6 +21,7 @@ def run_as_admin():
         # 在此处给出适当的错误处理或提示
         sys.exit(0)
 
+
 # 检查是否以管理员权限运行
 if not ctypes.windll.shell32.IsUserAnAdmin():
     # 如果不是管理员权限，则以管理员方式重新运行
@@ -27,12 +29,11 @@ if not ctypes.windll.shell32.IsUserAnAdmin():
     sys.exit(0)  # 添加这个之后就不会运行两个主要功能的代码逻辑了，以管理员方式重新运行，当前进程退出
 
 
-
-
 def get_app_list(folder_path):
     if not os.path.exists(folder_path):
         return []
     return [f for f in os.listdir(folder_path) if f.endswith('.exe')]
+
 
 def install_exe():
     exe_path = os.path.join(app_list_folder, selected_app.get())
@@ -54,6 +55,7 @@ def install_exe():
     elapsed_time = end_time - start_time
     messagebox.showinfo("安装完成", f"安装已完成，耗时：{elapsed_time:.2f}秒")
 
+
 def main():
     global app_list_folder, selected_app
 
@@ -61,18 +63,16 @@ def main():
     app_list = get_app_list(app_list_folder)
 
     if not app_list:
-        messagebox.showerror("错误", "找不到可用的安装包。请确保applist文件夹存在并包含exe文件。")
+        messagebox.showerror("错误", "在桌面创建一个名为applist的文件夹，测试程序从该文件夹中获取")
         return
-
 
     window = tk.Tk()
     window.title("安装耗时测试")
 
-
     frame = tk.Frame(window)
     frame.pack(padx=10, pady=10)
 
-    label = tk.Label(frame, text="在桌面创建一个名为applist的文件夹，测试程序从该文件夹中获取", relief=tk.SUNKEN, anchor=tk.W)
+    label = tk.Label(frame, text="在桌面创建一个名为applist的文件夹，测试程序从该文件夹中获取", relief=tk.SUNKEN,anchor=tk.W)
     label.pack(side=tk.BOTTOM, fill=tk.X)
 
     selected_app = tk.StringVar(window)
@@ -85,6 +85,7 @@ def main():
     install_button.pack()
 
     window.mainloop()
+
 
 if __name__ == "__main__":
     main()
