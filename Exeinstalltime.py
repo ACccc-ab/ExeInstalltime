@@ -3,6 +3,31 @@ import subprocess
 import time
 import tkinter as tk
 from tkinter import messagebox
+import ctypes
+import sys
+
+def run_as_admin():
+    if sys.platform.startswith('win'):
+        try:
+            # 使用 Windows API 调用以管理员权限运行应用程序
+            ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+        except ctypes.WinError:
+            # 用户拒绝提升权限或发生其他错误
+            # 在此处处理错误情况
+            sys.exit(0)
+    else:
+        # 在非 Windows 系统上运行，无法提升权限
+        # 在此处给出适当的错误处理或提示
+        sys.exit(0)
+
+# 检查是否以管理员权限运行
+if not ctypes.windll.shell32.IsUserAnAdmin():
+    # 如果不是管理员权限，则以管理员方式重新运行
+    run_as_admin()
+    sys.exit(0)  # 添加这个之后就不会运行两个主要功能的代码逻辑了，以管理员方式重新运行，当前进程退出
+
+
+
 
 def get_app_list(folder_path):
     if not os.path.exists(folder_path):
